@@ -35,12 +35,7 @@ public class ChatClient {
                 System.out.println("Offline: " + login);
             }
         });
-        chatClient.addMessageListener(new MessageListener() {
-            @Override
-            public void onMessage(String login, String body) {
-                System.out.println("You got a message from "+ login + "->" + body);
-            }
-        });
+        chatClient.addMessageListener((login, body) -> System.out.println("You got a message from "+ login + "->" + body));
         if (!chatClient.connect()) {
             System.err.println("Connect failed!!!!");
         } else {
