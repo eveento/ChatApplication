@@ -56,17 +56,17 @@ public class ChatClient {
         }
     }
 
-    private void msg(String sendTo, String body) throws IOException {
+    public void msg(String sendTo, String body) throws IOException {
         String cmd = "msg "+ sendTo + " "+ body + "\n";
         serverOut.write(cmd.getBytes());
     }
 
-    private void logoff() throws IOException {
+    public void logoff() throws IOException {
         String cmd = "logoff\n";
         serverOut.write(cmd.getBytes());
     }
 
-    private boolean login(String login, String password) throws IOException {
+    public boolean login(String login, String password) throws IOException {
         String cmd = "login " + login + " " + password + "\n";
         serverOut.write(cmd.getBytes());
         String response = bufferIn.readLine();
@@ -121,7 +121,6 @@ public class ChatClient {
     private void handleMessage(String[] tokensMsg) {
         String login =tokensMsg[1];
         String body = tokensMsg[2];
-
         for(MessageListener listener: messageListeners){
             listener.onMessage(login, body);
         }
@@ -132,7 +131,6 @@ public class ChatClient {
         for(UserListener  userListener : userListeners){
             userListener.offline(login);
         }
-
     }
 
     private void handleOnline(String[] tokens) {
@@ -142,7 +140,7 @@ public class ChatClient {
         }
     }
 
-    private boolean connect() {
+    public boolean connect() {
         try {
             this.socket = new Socket(serverName, serverPort);
             this.serverOut = socket.getOutputStream();
