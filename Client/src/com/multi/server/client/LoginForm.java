@@ -4,16 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class LoginForm extends JFrame{
+public class LoginForm extends JFrame {
 
     private final ChatClient chatClient;
     JTextField loginField = new JTextField();
     JPasswordField jPasswordField = new JPasswordField();
     JButton jButton = new JButton("Log in");
 
-    public LoginForm(){
+    public LoginForm() {
         super("Log in");
-
         this.chatClient = new ChatClient("localhost", 8808);
         chatClient.connect();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,15 +21,11 @@ public class LoginForm extends JFrame{
         jPanel.add(loginField);
         jPanel.add(jPasswordField);
         jPanel.add(jButton);
-
         jButton.addActionListener(e -> logInToApp());
-
+        setLocation(600, 300);
+        setSize(300, 120);
         getContentPane().add(jPanel, BorderLayout.CENTER);
-
-        pack(); //autosize
-
         setVisible(true);
-
     }
 
     private void logInToApp() {
@@ -38,7 +33,7 @@ public class LoginForm extends JFrame{
         String pass = jPasswordField.getText();
 
         try {
-            if(chatClient.login(login, pass)){
+            if (chatClient.login(login, pass)) {
                 UserPanel userPanel = new UserPanel(chatClient);
                 JFrame jFrame = new JFrame("User");
                 jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,7 +41,7 @@ public class LoginForm extends JFrame{
                 jFrame.getContentPane().add(new JScrollPane(userPanel), BorderLayout.CENTER);
                 jFrame.setVisible(true);
                 setVisible(false);
-            }else {
+            } else {
                 JOptionPane.showMessageDialog(this, "Invalid user or passworld");
             }
         } catch (IOException e) {
@@ -54,10 +49,9 @@ public class LoginForm extends JFrame{
         }
     }
 
-    public static void main(String[] args){
-
+    public static void main(String[] args) {
         LoginForm loginForm = new LoginForm();
         loginForm.setVisible(true);
-        }
+    }
 
 }

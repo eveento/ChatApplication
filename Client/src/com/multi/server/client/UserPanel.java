@@ -1,10 +1,8 @@
 package com.multi.server.client;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 public class UserPanel extends JPanel implements UserListener {
 
@@ -24,13 +22,12 @@ public class UserPanel extends JPanel implements UserListener {
         userList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount()>1){
+                if (e.getClickCount() > 1) {
                     String login = userList.getSelectedValue();
                     MessagePanel messagePanel = new MessagePanel(chatClient, login);
-
                     JFrame jFrame = new JFrame("Message: " + login);
                     jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    jFrame.setSize(500,500);
+                    jFrame.setSize(500, 500);
                     jFrame.getContentPane().add(messagePanel, BorderLayout.CENTER);
                     jFrame.setVisible(true);
                 }
@@ -43,17 +40,9 @@ public class UserPanel extends JPanel implements UserListener {
         UserPanel userPanel = new UserPanel(chatClient);
         JFrame jFrame = new JFrame("User");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.setSize(400, 600);
+        jFrame.setSize(450, 700);
         jFrame.getContentPane().add(new JScrollPane(userPanel), BorderLayout.CENTER);
         jFrame.setVisible(true);
-
-        if (chatClient.connect()) {
-            try {
-                chatClient.login("guest", "guest");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override

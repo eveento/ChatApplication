@@ -1,9 +1,6 @@
 package com.multi.server.client;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class MessagePanel extends JPanel implements MessageListener {
@@ -24,17 +21,14 @@ public class MessagePanel extends JPanel implements MessageListener {
         add(new JScrollPane(messageList),BorderLayout.CENTER);
         add(inputField, BorderLayout.SOUTH);
 
-        inputField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String text =inputField.getText();
-                    chatClient.msg(login, text);
-                    listModel.addElement("You: " + text);
-                    inputField.setText("");
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+        inputField.addActionListener(e -> {
+            try {
+                String text =inputField.getText();
+                chatClient.msg(login, text);
+                listModel.addElement("You: " + text);
+                inputField.setText("");
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         });
     }

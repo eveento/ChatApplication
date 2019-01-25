@@ -1,7 +1,5 @@
 package com.multi.server.client;
-
 import org.apache.commons.lang3.StringUtils;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -36,23 +34,11 @@ public class ChatClient {
             }
         });
         chatClient.addMessageListener((login, body) -> System.out.println("You got a message from "+ login + "->" + body));
-        if (!chatClient.connect()) {
-            System.err.println("Connect failed!!!!");
-        } else {
-            System.out.println("Connect client successfully");
-            if (chatClient.login("damian", "damian")) {
-                System.out.println("Login successful");
 
-                chatClient.msg("damian", "Siemka");
-            } else {
-                System.out.println("Login failed");
-            }
-//            chatClient.logoff();
-        }
     }
 
-    public void msg(String sendTo, String body) throws IOException {
-        String cmd = "msg "+ sendTo + " "+ body + "\n";
+    public void msg(String send, String body) throws IOException {
+        String cmd = "msg "+ send + " "+ body + "\n";
         serverOut.write(cmd.getBytes());
     }
 
@@ -68,7 +54,7 @@ public class ChatClient {
 
         System.out.println("Response Line: " + response);
 
-        if ("ok login".equalsIgnoreCase(response)) {
+        if ("User logged in successfully".equalsIgnoreCase(response)) {
             startMessageReader();
             return true;
         } else {
@@ -140,8 +126,8 @@ public class ChatClient {
             this.socket = new Socket(serverName, serverPort);
             this.serverOut = socket.getOutputStream();
             this.serverIn = socket.getInputStream();
-            System.out.println("Client port is " + socket.getLocalPort());
             this.bufferIn = new BufferedReader(new InputStreamReader(serverIn));
+            System.out.println("Client port is " + socket.getLocalPort());
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -152,11 +138,9 @@ public class ChatClient {
     public void addUserListener(UserListener listener) {
         userListeners.add(listener);
     }
-
     public void removeListener(UserListener listener) {
         userListeners.remove(listener);
     }
-
     public void addMessageListener(MessageListener listener){
         messageListeners.add(listener);
     }
